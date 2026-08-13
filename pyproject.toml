@@ -3,7 +3,7 @@ requires = ["hatchling>=1.25"]
 build-backend = "hatchling.build"
 
 [project]
-name = "rooomtech-dap"
+name = "rooom-devflow"
 version = "0.3.0"
 description = "Vendor-neutral governance core for agentic software delivery"
 readme = "README.md"
