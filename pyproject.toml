@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "rooomtech-dap"
-version = "0.2.0"
+version = "0.3.0"
 description = "Vendor-neutral governance core for agentic software delivery"
 readme = "README.md"
 requires-python = ">=3.11"
-license = {text = "Apache-2.0"}
+license = {text = "See LICENSE"}
 authors = [{name = "ROOOMTECH"}]
 dependencies = [
   "fastapi>=0.115,<1",
