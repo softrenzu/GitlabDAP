@@ -1,12 +1,14 @@
 # Rooomtech DAP
 
-Rooomtech DAP is an open-source, vendor-neutral governance core for agentic software delivery. It is an independent implementation and is not affiliated with or endorsed by GitLab.
+Version: `0.2.0`
+
+Rooomtech DAP is a source-available, vendor-neutral governance core for agentic software delivery. It is an independent implementation and is not affiliated with or endorsed by GitLab.
 
 ## Baseline
 
 The design uses GitLab Duo Agent Platform as the comparison baseline: agentic chat, foundational/custom/external agents, flows, AI Catalog, MCP integration, self-hosted models, contextual awareness, sandbox execution, and security analysis.
 
-## Implemented in v0.1
+## Implemented in v0.2
 
 - Vendor-neutral Agent and Flow data models.
 - Risk-aware policy engine for read, write, execute, network, deploy, and privileged classes.
@@ -26,7 +28,7 @@ The design uses GitLab Duo Agent Platform as the comparison baseline: agentic ch
 
 Rooomtech DAP separates governance from the Git host and model vendor. Model choice, privacy class, budget, risk classification, approval requirements, memory lifetime, and input-security checks are explicit control-plane concepts rather than being bound to one repository platform.
 
-v0.1 is a working governance core, not a claim of production superiority over GitLab. The production execution layer is deliberately separated from the core.
+v0.2 is a working governance core, not a claim of production superiority over GitLab. The production execution layer is deliberately separated from the core.
 
 ## Quick start
 
@@ -70,6 +72,14 @@ Main endpoints:
 - https://docs.gitlab.com/user/duo_agent_platform/security_threats/
 - https://docs.gitlab.com/user/duo_agent_platform/environment_sandbox/
 
+## Commercial use and support
+
+For `0.2.0` and later, noncommercial use is available under PolyForm Noncommercial License 1.0.0. Commercial or production deployment is offered under a separate paid ROOOMTECH commercial license. Paid maintenance, technical support, implementation, integration, upgrade assistance, security support, SLA options, and custom development are available. A standard commercial software license agreement is available.
+
+Contact: `tasuku.yoshioka@rooomtech.com`
+
+PolyForm Noncommercial License 1.0.0: https://polyformproject.org/licenses/noncommercial/1.0.0
+
 ## License
 
-Apache-2.0.
+From `0.2.0`: PolyForm Noncommercial License 1.0.0 for permitted noncommercial use, or a separate paid commercial license from ROOOMTECH. Earlier versions keep the terms published with those versions.
