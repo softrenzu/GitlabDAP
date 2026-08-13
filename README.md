@@ -2,7 +2,7 @@
 
 Version: `0.2.0`
 
-Rooomtech DAP is a source-available, vendor-neutral governance core for agentic software delivery. It is an independent implementation and is not affiliated with or endorsed by GitLab.
+Rooomtech DAP is an open-source, vendor-neutral governance core for agentic software delivery. It is an independent implementation and is not affiliated with or endorsed by GitLab.
 
 ## Baseline
 
@@ -72,14 +72,14 @@ Main endpoints:
 - https://docs.gitlab.com/user/duo_agent_platform/security_threats/
 - https://docs.gitlab.com/user/duo_agent_platform/environment_sandbox/
 
-## Commercial use and support
+## Commercial licensing and support
 
-For `0.2.0` and later, noncommercial use is available under PolyForm Noncommercial License 1.0.0. Commercial or production deployment is offered under a separate paid ROOOMTECH commercial license. Paid maintenance, technical support, implementation, integration, upgrade assistance, security support, SLA options, and custom development are available. A standard commercial software license agreement is available.
+The Apache-2.0 open-source license remains available. Companies that require contractual commercial terms can purchase a separate ROOOMTECH commercial license agreement together with paid maintenance and support.
+
+ROOOMTECH provides paid technical support, implementation and integration assistance, upgrade support, security and production-readiness support, SLA options, private builds, and custom development. A standard commercial software license agreement is available.
 
 Contact: `tasuku.yoshioka@rooomtech.com`
 
-PolyForm Noncommercial License 1.0.0: https://polyformproject.org/licenses/noncommercial/1.0.0
-
 ## License
 
-From `0.2.0`: PolyForm Noncommercial License 1.0.0 for permitted noncommercial use, or a separate paid commercial license from ROOOMTECH. Earlier versions keep the terms published with those versions.
+Apache-2.0.
