@@ -1,49 +1,32 @@
 # Rooomtech DAP
 
-Rooomtech DAP is an open-source, vendor-neutral agentic software delivery platform designed to go beyond a single DevOps vendor's AI agent layer.
+Rooomtech DAP is an open-source, vendor-neutral governance core for agentic software delivery. It is an independent implementation and is not affiliated with or endorsed by GitLab.
 
-This repository is an independent implementation. It is not affiliated with or endorsed by GitLab.
+## Baseline
 
-## Why this exists
+The design uses GitLab Duo Agent Platform as the comparison baseline: agentic chat, foundational/custom/external agents, flows, AI Catalog, MCP integration, self-hosted models, contextual awareness, sandbox execution, and security analysis.
 
-GitLab Duo Agent Platform already provides agentic chat, foundational/custom/external agents, flows, an AI catalog, MCP integration, self-hosted models, contextual awareness, and sandboxed execution. Rooomtech DAP treats those capabilities as the baseline and adds controls that are especially useful for enterprise, regulated, air-gapped, and multi-platform environments.
+## Implemented in v0.1
 
-## Differentiators
+- Vendor-neutral Agent and Flow data models.
+- Risk-aware policy engine for read, write, execute, network, deploy, and privileged classes.
+- Approval-required policy decisions for higher-risk operations.
+- Per-run/per-agent budget checks.
+- Prompt-injection detection for untrusted text.
+- Credential-like data redaction.
+- Multi-provider model routing interface by profile, privacy class, price, fallback order, and budget.
+- Offline deterministic EchoProvider for tests and disconnected environments.
+- CallbackProvider adapter for deployment-specific local or cloud model SDKs.
+- Scoped TTL memory with namespace deletion.
+- Structured audit-event model and in-memory audit log.
+- Portable Flow DAG manifests with dependencies, retry metadata, risk labels, and approval metadata.
+- FastAPI endpoints for Agent/Flow/provider inventory, policy checks, and security scans.
 
-- **Vendor-neutral control plane**: agent workflows are not tied to one Git host, CI system, model vendor, or runtime.
-- **Policy-gated autonomy**: every side effect is classified by risk. Write, deploy, delete, secret access, and network actions can require explicit approval.
-- **Multi-model routing**: choose models by capability, privacy class, expected quality, latency, and cost budget; automatically fall back when a provider fails.
-- **Prompt-injection firewall**: untrusted tool/repository content is taint-scanned before it can influence privileged actions.
-- **Scoped memory with TTL**: task/project/organization memories are isolated, expiring, redactable, and auditable.
-- **Durable DAG orchestration**: parallel steps, dependencies, retries, checkpoints, resumability, and deterministic event logs.
-- **Shadow/canary execution**: evaluate a new agent/model on mirrored work before granting write access.
-- **Budget governance**: per-run token/cost ceilings and provider-specific limits.
-- **Air-gap first**: no mandatory SaaS control plane; OpenAI-compatible local endpoints such as vLLM/NIM/TGI can be routed without code changes.
-- **MCP/tool abstraction**: capability-based tool registration with allowlists and per-agent grants.
-- **Observability-ready**: structured events expose model choice, policy decisions, latency, retries, security flags, and cost metadata.
-- **Portable agent manifests**: agents and flows are plain YAML/JSON and can live beside code.
+## Why this can go beyond a single-vendor DAP
 
-## Architecture
+Rooomtech DAP separates governance from the Git host and model vendor. Model choice, privacy class, budget, risk classification, approval requirements, memory lifetime, and input-security checks are explicit control-plane concepts rather than being bound to one repository platform.
 
-```text
-Client / CI / IDE / Webhook
-          |
-          v
-+----------------------------+
-| FastAPI control plane      |
-+----------------------------+
-     |       |        |
-     v       v        v
- Catalog   Policy   Security
-     |       |        |
-     +--- Orchestrator -------+
-              |
-       +------+-------+
-       | Model Router |
-       +------+-------+
-              |
-    local / cloud / hybrid LLMs
-```
+v0.1 is a working governance core, not a claim of production superiority over GitLab. The production execution layer is deliberately separated from the core.
 
 ## Quick start
 
@@ -53,67 +36,32 @@ Requires Python 3.11+.
 python -m venv .venv
 source .venv/bin/activate
 pip install -e '.[dev]'
-pytest
-uvicorn rooomtech_dap.api:app --reload
-```
-
-Run a local demo flow without any external model key:
-
-```bash
-rooomtech-dap run examples/flow.yaml --goal "Add input validation to the API"
-```
-
-The default `echo` provider is deterministic and network-free. Configure an OpenAI-compatible provider when you want real inference:
-
-```bash
-export DAP_PROVIDER_URL=http://localhost:8000/v1
-export DAP_PROVIDER_API_KEY=dummy
-export DAP_PROVIDER_MODEL=Qwen/Qwen3-Coder
+pytest -q
 uvicorn rooomtech_dap.api:app --host 0.0.0.0 --port 8080
 ```
 
-## API
+Main endpoints:
 
 - `GET /healthz`
 - `GET /v1/agents`
 - `GET /v1/flows`
-- `POST /v1/runs`
-- `GET /v1/runs/{run_id}`
+- `GET /v1/providers`
 - `POST /v1/policy/check`
 - `POST /v1/security/scan`
 
-## Agent manifest
+## Production roadmap
 
-```yaml
-id: developer
-name: Developer Agent
-capabilities: [read_code, write_code, run_tests]
-model_profile: coding
-max_cost_usd: 2.0
-```
+1. Policy-gated workflow runner with explicit resume checkpoints.
+2. Kubernetes sandbox executor with seccomp and network-policy profiles.
+3. Native GitHub, GitLab, Bitbucket, and Azure DevOps adapters.
+4. Signed MCP tool registry with capability grants.
+5. OPA/Rego integration and multi-party approvals.
+6. PostgreSQL event store and durable workers.
+7. OpenTelemetry and Prometheus telemetry.
+8. Golden-task evaluation, shadow traffic, canary rollout, and regression gates.
+9. Web console for Agents, Flows, approvals, policies, budgets, and evaluations.
 
-## Flow manifest
-
-```yaml
-id: issue_to_change
-steps:
-  - id: inspect
-    agent: planner
-    prompt: Inspect the task and produce a plan.
-  - id: implement
-    agent: developer
-    depends_on: [inspect]
-    prompt: Implement the approved plan.
-    risk: write
-  - id: verify
-    agent: reviewer
-    depends_on: [implement]
-    prompt: Review the change and tests.
-```
-
-## GitLab DAP baseline used for this design
-
-Checked against GitLab's public documentation on 2026-08-14:
+## GitLab documentation checked on 2026-08-14
 
 - https://docs.gitlab.com/user/duo_agent_platform/
 - https://docs.gitlab.com/user/duo_agent_platform/agents/
@@ -122,19 +70,6 @@ Checked against GitLab's public documentation on 2026-08-14:
 - https://docs.gitlab.com/user/duo_agent_platform/security_threats/
 - https://docs.gitlab.com/user/duo_agent_platform/environment_sandbox/
 
-The claim here is a **feature-design target**, not a benchmark claim that this early implementation has already proven superior in production.
-
-## Roadmap
-
-1. Kubernetes sandbox executor and seccomp/network-policy profiles.
-2. Native GitHub/GitLab/Bitbucket/Azure DevOps adapters.
-3. MCP client/server registry with signed tool manifests.
-4. OPA/Rego policy adapter and enterprise approval workflows.
-5. PostgreSQL event store and resumable workers.
-6. OpenTelemetry traces and Prometheus metrics.
-7. Evaluation harness with golden tasks, regression gates, and shadow traffic.
-8. Web UI for runs, approvals, policy, cost, and agent catalog.
-
 ## License
 
-Apache-2.0. See `LICENSE`.
+Apache-2.0.
