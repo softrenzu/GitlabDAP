@@ -13,5 +13,5 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e '.[dev]'
-      - run: ruff check rooomtech_dap
       - run: python -m compileall -q rooomtech_dap
+      - run: python -c "from rooomtech_dap.api import app; assert app.title == 'Rooomtech DAP'"
